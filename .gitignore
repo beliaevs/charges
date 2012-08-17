@@ -1,0 +1,11 @@
+*.user
+*.cache
+*.sdf
+*.opensdf
+*.suo
+Debug/
+Release/
+ipch/
+*.lastbuildstate
+*.aps
+*.orig
