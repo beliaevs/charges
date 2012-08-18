@@ -1,21 +1,31 @@
 #include<iostream>
 #include<sstream>
+#include<cstdlib>
 
 #include "chargesystem.h"
+
+Vector3D randomVector()
+{
+  Vector3D res;
+  res.x = double(std::rand())/RAND_MAX;
+  res.y = double(std::rand())/RAND_MAX;
+  res.z = double(std::rand())/RAND_MAX;
+  return res;
+}
+
+void addCharges(ChargeSystem& o_charges, int n)
+{
+  for(int i = 0; i < n; ++i)
+  {
+    Vector3D v = randomVector();
+    o_charges.add(v);
+  }
+}
 
 int main()
 {
  ChargeSystem charges(0.1);
- charges.add(Vector3D(1, 0, 0));
- charges.add(Vector3D(0, 1, 0));
- charges.add(Vector3D(0, 0, 1));
- charges.add(Vector3D(1, 1, 0));
- charges.add(Vector3D(0, 1, 1));
- charges.add(Vector3D(1, 0, 1));
- for(int i = 0 ; i < 41; ++i)
- {
-   charges.add(Vector3D(i+1, i+2, i+3));
- }
+ addCharges(charges, 48);
 
  if( !charges.solve() )
  {
