@@ -3,7 +3,7 @@
 
  void ChargeSystem::normalize()
  {
-   std::for_each(d_particles.begin(), d_particles.end(), [](PhasePoint& io_pnt) { io_pnt.d_p.doNormalize(); } );
+   std::for_each(d_particles.begin(), d_particles.end(), [](PhasePoint& io_pnt) { makeUnit(io_pnt.d_p); } );
  }
 
  bool ChargeSystem::solve()
@@ -21,7 +21,7 @@
        PhasePoint& pp = d_particles[i];
        PhasePoint& newpp = newPP[i];
        newpp.d_p = pp.d_p + d_t * pp.d_v;
-       newpp.d_p.doNormalize();
+       makeUnit(newpp.d_p);
        newpp.d_v = pp.d_v + d_t * getForce(i); // unit mass
        newpp.d_v -= (newpp.d_p * newpp.d_v) * newpp.d_p; // dv * dp == 0 always
      }
@@ -49,11 +49,9 @@
    {
      if(i == c)
        continue;
-     Vector3D d = current.d_p - d_particles[i].d_p;
-     double len = d.length();
-     force += 1./(len * len * len) * d;
+     force += coulombForce(current.d_p, d_particles[i].d_p);
    }
-   force -= (force * current.d_p) * current.d_p;
+   force -= (force * current.d_p) * current.d_p; // force is acting in tangent space of the unit sphere
    return force;
  }
 
@@ -63,7 +61,7 @@
    int n = d_particles.size();
    for(int i = 0; i < n; ++i)
    {
-     double m = d_particles[i].d_v.lenSqr();
+     double m = lenSqr(d_particles[i].d_v);
      if( m > movementMax )
        movementMax = m;
    }
