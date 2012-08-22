@@ -1,5 +1,6 @@
 #include "chargesystem.h"
 #include <algorithm>
+#include "coulomb.h"
 
  void ChargeSystem::normalize()
  {

@@ -3,6 +3,7 @@
 #include<cstdlib>
 
 #include "chargesystem.h"
+#include "EquilibriumFinder.h"
 
 Vector3D randomVector()
 {
@@ -13,6 +14,7 @@ Vector3D randomVector()
   return res;
 }
 
+template<typename ChargeSystem>
 void addCharges(ChargeSystem& o_charges, int n)
 {
   for(int i = 0; i < n; ++i)
@@ -22,26 +24,42 @@ void addCharges(ChargeSystem& o_charges, int n)
   }
 }
 
-int main()
+void outputChargesMathematicaFormat(std::ostream& os, const std::vector<Vector3D>& i_points)
 {
- ChargeSystem charges(0.1);
- addCharges(charges, 48);
+  os << "Graphics3D[{PointSize[Large], Point[{\n";
+  for(int i = 0; i < i_points.size(); ++i)
+  {
+    os << "{" << i_points[i] << "}";
+    if( i+1 != i_points.size() )
+      os << ", ";
+  }
+  os << "}], Opacity[0.5], Sphere[]}]\n";
+}
 
- if( !charges.solve() )
- {
-   std::cout << "pesec!\n";
-   return 0;
- }
- std::vector<Vector3D> res = charges.getPositions();
- std::ostringstream os;
- os << "Graphics3D[{PointSize[Large], Point[{\n";
- for(int i = 0; i < res.size(); ++i)
- {
-   os << "{" << res[i] << "}";
-   if( i+1 != res.size() )
-     os << ", ";
- }
- os << "}], Opacity[0.5], Sphere[]}]\n";
- std::cout << os.str();
+int main()
+{/*
+  {
+    ChargeSystem charges(0.01);
+    addCharges(charges, 100);
+
+    if( !charges.solve() )
+    {
+      std::cout << "pesec!\n";
+      return 0;
+    }
+    std::vector<Vector3D> res = charges.getPositions();
+    outputChargesMathematicaFormat(std::cout, res);
+  }*/
+  {
+    EquilibriumFinder finder(0.001);
+    addCharges(finder, 200);
+    if( !finder.solve() )
+    {
+      std::cout << "pesec!\n";
+      return 0;
+    }
+    std::vector<Vector3D> res = finder.getPositions();
+    outputChargesMathematicaFormat(std::cout, res);
+  }
  return 0;
 }

@@ -75,10 +75,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="chargesystem.cpp" />
+    <ClCompile Include="EquilibriumFinder.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="chargesystem.h" />
+    <ClInclude Include="coulomb.h" />
+    <ClInclude Include="EquilibriumFinder.h" />
     <ClInclude Include="Vector3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
