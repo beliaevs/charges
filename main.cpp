@@ -36,6 +36,18 @@ void outputChargesMathematicaFormat(std::ostream& os, const std::vector<Vector3D
   os << "}], Opacity[0.5], Sphere[]}]\n";
 }
 
+void outputChargesSageFormat(std::ostream& os, const std::vector<Vector3D>& i_points)
+{
+    os << "sum([point3d(p) for p in [";
+    for (int i = 0; i < i_points.size(); ++i)
+    {
+        os << "(" << i_points[i] << ")";
+        if (i + 1 != i_points.size())
+            os << ", ";
+    }
+    os << "]]).show()\n";
+}
+
 int main()
 {/*
   {
@@ -52,14 +64,15 @@ int main()
   }*/
   {
     EquilibriumFinder finder(0.001);
-    addCharges(finder, 200);
+    addCharges(finder, 20);
     if( !finder.solve() )
     {
       std::cout << "pesec!\n";
       return 0;
     }
     std::vector<Vector3D> res = finder.getPositions();
-    outputChargesMathematicaFormat(std::cout, res);
+    //outputChargesMathematicaFormat(std::cout, res);
+    outputChargesSageFormat(std::cout, res);
   }
  return 0;
 }
