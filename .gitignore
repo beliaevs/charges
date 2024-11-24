@@ -9,3 +9,5 @@ ipch/
 *.lastbuildstate
 *.aps
 *.orig
+.vs
+
