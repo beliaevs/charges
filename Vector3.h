@@ -6,10 +6,11 @@
 template<typename T>
 class Vector3
 {
+  static_assert(std::is_floating_point_v<T>, "parameter should be floating-point type");
 public:
   T x, y, z;
 
-  Vector3(): x(0), y(0), z(0) {}
+  Vector3() = default;
 
   Vector3(T i_x, T i_y, T i_z): x(i_x), y(i_y), z(i_z)
   {

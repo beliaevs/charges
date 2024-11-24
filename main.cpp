@@ -64,7 +64,7 @@ int main()
   }*/
   {
     EquilibriumFinder finder(0.001);
-    addCharges(finder, 20);
+    addCharges(finder, 17);
     if( !finder.solve() )
     {
       std::cout << "pesec!\n";
