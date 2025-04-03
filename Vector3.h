@@ -8,7 +8,7 @@ class Vector3
 {
   static_assert(std::is_floating_point_v<T>, "parameter should be floating-point type");
 public:
-  T x, y, z;
+    T x{}, y{}, z{};
 
   Vector3() = default;
 

@@ -10,4 +10,6 @@ ipch/
 *.aps
 *.orig
 .vs
+build
+
 

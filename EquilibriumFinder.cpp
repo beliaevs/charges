@@ -18,8 +18,8 @@ void EquilibriumFinder::getPositions(std::vector<Vector3D>& o_points)
 
 bool EquilibriumFinder::solve()
 {
-  const int c_maxIters = 1000000;
-  const double c_maxMovement = 1e-5 * 1e-5;
+  constexpr int c_maxIters = 1000000;
+  constexpr double c_maxMovement = 1e-5 * 1e-5;
   int n = d_particles.size();
   std::vector<Vector3D> newPos(n);
   int iters = 0;
