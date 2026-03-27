@@ -1,26 +1,27 @@
 #include<iostream>
 #include<sstream>
-#include<cstdlib>
+#include<random>
 
 #include "chargesystem.h"
 #include "EquilibriumFinder.h"
 
-Vector3D randomVector()
+Vector3D randomVector(std::mt19937& mt)
 {
   Vector3D res;
-  res.x = double(std::rand())/RAND_MAX;
-  res.y = double(std::rand())/RAND_MAX;
-  res.z = double(std::rand())/RAND_MAX;
+  std::uniform_real_distribution<> rd(-1.0, 1.0);
+  res.x = rd(mt);
+  res.y = rd(mt);
+  res.z = rd(mt);
   return res;
 }
 
 template<typename ChargeSystem>
 void addCharges(ChargeSystem& o_charges, int n)
 {
+  std::mt19937 mt;
   for(int i = 0; i < n; ++i)
   {
-    Vector3D v = randomVector();
-    o_charges.add(v);
+    o_charges.add(randomVector(mt));
   }
 }
 
@@ -49,30 +50,15 @@ void outputChargesSageFormat(std::ostream& os, const std::vector<Vector3D>& i_po
 }
 
 int main()
-{/*
-  {
-    ChargeSystem charges(0.01);
-    addCharges(charges, 100);
-
-    if( !charges.solve() )
-    {
-      std::cout << "pesec!\n";
-      return 0;
-    }
-    std::vector<Vector3D> res = charges.getPositions();
-    outputChargesMathematicaFormat(std::cout, res);
-  }*/
-  {
+{
     EquilibriumFinder finder(0.001);
     addCharges(finder, 17);
     if( !finder.solve() )
     {
-      std::cout << "pesec!\n";
-      return 0;
+        std::cout << "pesec!\n";
+        return 0;
     }
     std::vector<Vector3D> res = finder.getPositions();
-    //outputChargesMathematicaFormat(std::cout, res);
     outputChargesSageFormat(std::cout, res);
-  }
- return 0;
+    return 0;
 }

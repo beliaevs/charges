@@ -12,12 +12,12 @@
    const double c_smallVelocitiesSq = 0.0001*0.0001;
    const int c_maxIters = 1000000;
    normalize();
-   int n = d_particles.size();
-   std::vector<PhasePoint> newPP( n );
+   std::vector<PhasePoint> newPP(d_particles.size());
+   const int n = static_cast<int>(newPP.size());
    int iter = 0;
    do
    {
-     for( int i = 0; i < n; ++i)
+     for(int i = 0; i < n; ++i)
      {
        PhasePoint& pp = d_particles[i];
        PhasePoint& newpp = newPP[i];
@@ -43,7 +43,7 @@
 
  Vector3D ChargeSystem::getForce(int c) const
  {
-   int n = d_particles.size();
+   auto n = d_particles.size();
    const PhasePoint& current = d_particles[c];
    Vector3D force( -10. * current.d_v ); // viscosity
    for(int i = 0; i < n; ++i)
@@ -59,7 +59,7 @@
  double ChargeSystem::movement() const
  {
    double movementMax = -1;
-   int n = d_particles.size();
+   auto n = d_particles.size();
    for(int i = 0; i < n; ++i)
    {
      double m = lenSqr(d_particles[i].d_v);

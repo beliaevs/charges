@@ -20,24 +20,25 @@ bool EquilibriumFinder::solve()
 {
   constexpr int c_maxIters = 1000000;
   constexpr double c_maxMovement = 1e-5 * 1e-5;
-  int n = d_particles.size();
+  auto n = d_particles.size();
   std::vector<Vector3D> newPos(n);
   int iters = 0;
-  double movement;
+  double maxForce = 0.;
   do
   {
-    movement = 0.;
+    maxForce = 0.;
     for(int i = 0; i < n; ++i)
     {
-      Vector3D f_i = d_t * getForce(i);
-      movement = std::max( movement, lenSqr(f_i) );
+      auto force = getForce(i);
+      Vector3D f_i = d_t * force;
+      maxForce = std::max(maxForce, lenSqr(force));
       newPos[i] = d_particles[i] + f_i;
       makeUnit(newPos[i]);
     }
     ++iters;
     d_particles.swap(newPos);
   }
-  while(movement > c_maxMovement && iters < c_maxIters);
+  while(maxForce > c_maxMovement && iters < c_maxIters);
 
   if(iters >= c_maxIters)
     return false;
@@ -47,7 +48,7 @@ bool EquilibriumFinder::solve()
 
 Vector3D EquilibriumFinder::getForce(int c) const
 {
-  int n = d_particles.size();
+  const auto n = d_particles.size();
   const Vector3D& current = d_particles[c];
   Vector3D force;
 
