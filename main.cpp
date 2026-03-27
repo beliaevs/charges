@@ -1,4 +1,5 @@
 #include<iostream>
+#include<optional>
 #include<sstream>
 #include<random>
 
@@ -49,11 +50,39 @@ void outputChargesSageFormat(std::ostream& os, const std::vector<Vector3D>& i_po
     os << "]]).show()\n";
 }
 
-int main()
+std::optional<int> parseArgs(int argc, const char* argv[])
 {
+    if (argc != 2)
+    {
+        std::cerr << "Usage: " << argv[0] << " <number_of_charges>\n";
+        return std::nullopt;
+    }
+    try
+    {
+        int n = std::stoi(argv[1]);
+        if (n <= 0)
+        {
+            std::cerr << "Number of charges must be a positive integer.\n";
+            return std::nullopt;
+        }
+        return n;
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "Invalid number of charges: " << e.what() << "\n";
+        return std::nullopt;
+    }
+}
+
+int main(int argc, const char* argv[])
+{
+    const auto charges = parseArgs(argc, argv);
+    if (!charges)
+        return 1;
+  
     EquilibriumFinder finder(0.001);
-    addCharges(finder, 17);
-    if( !finder.solve() )
+    addCharges(finder, *charges);
+    if(!finder.solve())
     {
         std::cout << "pesec!\n";
         return 0;
