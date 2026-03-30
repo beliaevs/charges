@@ -20,4 +20,4 @@ run
 
 charges.exe 10
 
-The app will give answer for number of charges not greater than 320.
+The app will give answer for number of charges not greater than 330.

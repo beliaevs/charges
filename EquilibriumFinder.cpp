@@ -27,7 +27,8 @@ bool EquilibriumFinder::solve()
   do
   {
     maxForce = 0.;
-    for(int i = 0; i < n; ++i)
+    newPos[0] = d_particles[0]; // don't move first point
+    for(int i = 1; i < n; ++i) 
     {
       auto force = getForce(i);
       Vector3D f_i = d_t * force;
